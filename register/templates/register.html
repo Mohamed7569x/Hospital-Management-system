@@ -1,0 +1,173 @@
+<!-- templates/register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Patient - Hospital Patient Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <style>
+        body {
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 120vh;
+            padding-top: 60px;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f4f4f9;
+            color: white;
+            padding: 15px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h2 {
+            margin: 0;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .head {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center;     /* Center vertically */
+            height: 20px;           /* Adjust height as needed */
+            background-color: #FFFFFF;
+            color: Black;
+            margin-bottom: 20px;     /* Space below the header */
+            padding: 1px;           /* Padding inside the header */
+        }
+        .head h2 {
+            margin: 0;
+        }
+        .alert {
+             /* Set a maximum width for the alert box */
+            margin: 0 auto; /* Center the alert box horizontally */
+            margin-bottom: 10px;
+            height: 40px;
+            padding: 5px; /* Adjust padding for better spacing */
+            border-radius: 10px; /* Round the corners */
+        }
+        .alert-danger {
+            background-color: #f8d7da; /* Light red background */
+            border-color: #f5c6cb; /* Border color to match background */
+            color: #721c24; /* Darker text color */
+        }
+    </style>
+</head>
+<body>
+    <div class="header mb-3">
+        <div class="text-center">
+            <a href="{% url 'register' %}" class="btn btn-secondary mr-2">Register Patient</a>
+            <a href="{% url 'verify' %}" class="btn btn-info mr-2">Verify Patient</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Dashboard</a>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="head">
+            <h2>Register New Patient</h2>
+        </div>
+        
+        <form method="post">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ field.label }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+            
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                {{ form.first_name }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                {{ form.last_name }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.dob.id_for_label }}">Date of Birth</label>
+                {{ form.dob }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.gender.id_for_label }}">Gender</label>
+                {{ form.gender }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.phone.id_for_label }}">Phone</label>
+                {{ form.phone }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.address.id_for_label }}">Address</label>
+                {{ form.address }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.emergency_contact.id_for_label }}">Emergency Contact</label>
+                {{ form.emergency_contact }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.medical_history.id_for_label }}">Medical History</label>
+                {{ form.medical_history }}
+            </div>
+                
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

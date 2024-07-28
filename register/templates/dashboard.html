@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Hospital Patient Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f4f4f9;
+            color: white;
+            padding: 15px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h2 {
+            margin: 0;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        body {
+            background-color: #f4f4f9;
+            padding: 20px;
+            padding-top: 60px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="header mb-3">
+        <div class="text-center">
+            <a href="{% url 'register' %}" class="btn btn-secondary mr-2">Register Patient</a>
+            <a href="{% url 'verify' %}" class="btn btn-info mr-2">Verify Patient</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Dashboard</a>
+        </div>
+    </div>
+    
+    <div class="container mt-4">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Patient ID</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Date of Birth</th>
+                        <th scope="col">Gender</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x in patients %}
+                    <tr>
+                        <td>{{ x.id }}</td>
+                        <td>{{ x.firstname }}</td>
+                        <td>{{ x.lastname }}</td>
+                        <td>{{ x.dob|date:"Y/m/d" }}</td>
+                        <td>{{ x.Gender }}</td>
+                        <td>{{ x.Phone }}</td>
+                        <td>{{ x.Email }}</td>
+                        <td>
+                            <form action="{% url 'dashboard' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="delete" value="{{ x.id }}" class="btn btn-danger">Delete</button>
+                            </form>
+                            
+                        </td>
+                    </tr>
+                    <!-- More rows as needed -->
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

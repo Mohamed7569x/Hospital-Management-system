@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Patient - Hospital Patient Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        /* Existing styles */
+        body {
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding-top: 60px; /* Adjust based on header height */
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f4f4f9;
+            color: white;
+            padding: 15px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h2 {
+            margin: 0;
+        }
+        .header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .head {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center;     /* Center vertically */
+            height: 20px;           /* Adjust height as needed */
+            background-color: #FFFFFF;
+            color: Black;
+            margin-bottom: 20px;     /* Space below the header */
+            padding: 1px;           /* Padding inside the header */
+        }
+        .head h2 {
+            margin: 0;
+        }
+    </style>
+    
+    
+</head>
+<body>
+   
+    <div class="header">
+        <div class="text-center">
+            <a href="{% url 'register' %}" class="btn btn-secondary mr-2">Register Patient</a>
+            <a href="{% url 'verify' %}" class="btn btn-info mr-2">Verify Patient</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary">Dashboard</a>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="head">
+            <h2>Verify Patient</h2>
+        </div>
+    <div class="container mt-4">
+        <form method="post">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ field.label }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="{{form.search_box.id_for_label}}">Search by Name or Patient ID or Email or Phone</label>
+                {{form.search_box }}
+            </div>
+
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="reset" class="btn btn-secondary">Clear</button>
+            </div>
+        </form>
+        {% if search_performed %}
+        {% if patient %}
+        <div class="mt-4">
+            <h3>Patient Details</h3>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th style="width: 20%;">First Name</th>
+                    <td style="width: 80%;">{{ patient.firstname }}</td>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <td>{{ patient.lastname }}</td>
+                </tr>
+                <tr>
+                    <th>Date of Birth</th>
+                    <td>{{ patient.dob|date:"Y/m/d" }}</td>
+                </tr>
+                <tr>
+                    <th>Gender</th>
+                    <td>{{ patient.Gender }}</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>{{ patient.Phone }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ patient.Email }}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>{{ patient.Address }}</td>
+                </tr>
+                <tr>
+                    <th>Emergency Contact</th>
+                    <td>{{ patient.Emergency_Contact }}</td>
+                </tr>
+                <tr>
+                    <th>Medical History</th>
+                    <td>{{ patient.Medical_History }}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="mt-4 alert alert-warning text-center" role="alert">
+            <h3><i class="fas fa-exclamation-triangle"></i> Patient not found</h3>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
